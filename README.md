@@ -21,6 +21,38 @@
 
 ---
 
+## Installation
+
+### Method 1: Install from GitHub Releases (.vsix)
+1. Download the latest `revwise-x.x.x.vsix` package from [GitHub Releases](https://github.com/prajwalyoyo/revwise/releases).
+2. Install via either option:
+   - **In VS Code (GUI)**:
+     - Open the **Extensions** view (`Ctrl+Shift+X` on Windows/Linux or `Cmd+Shift+X` on macOS).
+     - Click the **`...`** (Views and More Actions) menu in the top-right corner of the Extensions panel.
+     - Select **Install from VSIX...** and choose the downloaded file.
+   - **Via Terminal (CLI)**:
+     ```bash
+     code --install-extension revwise-0.3.0.vsix
+     ```
+
+### Method 2: Visual Studio Marketplace
+Once published to the Marketplace:
+- Search for **Revwise** in the Extensions view (`Ctrl+Shift+X` / `Cmd+Shift+X`) and click **Install**.
+- Or install via command line:
+  ```bash
+  code --install-extension revwise.revwise
+  ```
+
+### Method 3: Build & Install from Source
+```bash
+git clone https://github.com/prajwalyoyo/revwise.git
+cd revwise
+npm run package
+code --install-extension revwise-0.3.0.vsix
+```
+
+---
+
 ## Key Features
 
 ### 1. Inline Blame & File Annotations
