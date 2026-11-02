@@ -1,0 +1,1494 @@
+{
+	"name": "revwise",
+	"displayName": "Revwise — Blame, Graph & Undo for Git",
+	"description": "Fast, private, no-account toolkit for Git: inline blame, commit graph, history rewriting with one-click undo, changelists, visual file history, local patches and branch cleanup. Free on every repo.",
+	"version": "0.3.0",
+	"publisher": "revwise",
+	"license": "MIT",
+	"author": "Prajwal Hoblidar",
+	"icon": "resources/icon.png",
+	"galleryBanner": {
+		"color": "#2a1f6b",
+		"theme": "dark"
+	},
+	"engines": {
+		"vscode": "^1.85.0"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/prajwalyoyo/revwise"
+	},
+	"bugs": {
+		"url": "https://github.com/prajwalyoyo/revwise/issues"
+	},
+	"homepage": "https://github.com/prajwalyoyo/revwise#readme",
+	"qna": "marketplace",
+	"categories": [
+		"SCM Providers",
+		"Visualization",
+		"Other"
+	],
+	"keywords": [
+		"git",
+		"blame",
+		"graph",
+		"history",
+		"annotations",
+		"heatmap",
+		"branches",
+		"stash",
+		"worktree",
+		"changelists",
+		"rebase",
+		"reword",
+		"squash",
+		"undo",
+		"reflog",
+		"patch"
+	],
+	"main": "./src/extension.js",
+	"activationEvents": [
+		"onStartupFinished"
+	],
+	"capabilities": {
+		"untrustedWorkspaces": {
+			"supported": false,
+			"description": "Revwise runs git in the workspace."
+		},
+		"virtualWorkspaces": false
+	},
+	"contributes": {
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "revwise",
+					"title": "Revwise",
+					"icon": "resources/revwise.svg"
+				}
+			]
+		},
+		"views": {
+			"revwise": [
+				{
+					"type": "webview",
+					"id": "revwise.graph",
+					"name": "Commit Graph",
+					"icon": "resources/revwise.svg"
+				},
+				{
+					"id": "revwise.commits",
+					"name": "Commits",
+					"icon": "resources/revwise.svg"
+				},
+				{
+					"id": "revwise.changelists",
+					"name": "Changelists",
+					"icon": "resources/revwise.svg"
+				},
+				{
+					"id": "revwise.fileHistory",
+					"name": "File History",
+					"icon": "resources/revwise.svg"
+				},
+				{
+					"type": "webview",
+					"id": "revwise.visualHistory",
+					"name": "Visual File History",
+					"icon": "resources/revwise.svg",
+					"visibility": "collapsed"
+				},
+				{
+					"id": "revwise.lineHistory",
+					"name": "Line History",
+					"icon": "resources/revwise.svg",
+					"visibility": "collapsed"
+				},
+				{
+					"id": "revwise.branches",
+					"name": "Branches",
+					"icon": "resources/revwise.svg"
+				},
+				{
+					"id": "revwise.remotes",
+					"name": "Remotes",
+					"icon": "resources/revwise.svg",
+					"visibility": "collapsed"
+				},
+				{
+					"id": "revwise.stashes",
+					"name": "Stashes",
+					"icon": "resources/revwise.svg",
+					"visibility": "collapsed"
+				},
+				{
+					"id": "revwise.tags",
+					"name": "Tags",
+					"icon": "resources/revwise.svg",
+					"visibility": "collapsed"
+				},
+				{
+					"id": "revwise.worktrees",
+					"name": "Worktrees",
+					"icon": "resources/revwise.svg",
+					"visibility": "collapsed"
+				},
+				{
+					"id": "revwise.contributors",
+					"name": "Contributors",
+					"icon": "resources/revwise.svg",
+					"visibility": "collapsed"
+				},
+				{
+					"id": "revwise.searchCompare",
+					"name": "Search & Compare",
+					"icon": "resources/revwise.svg",
+					"visibility": "collapsed"
+				},
+				{
+					"id": "revwise.undo",
+					"name": "Undo & Reflog",
+					"icon": "resources/revwise.svg",
+					"visibility": "collapsed"
+				}
+			]
+		},
+		"commands": [
+			{
+				"command": "revwise.showGraph",
+				"title": "Show Commit Graph",
+				"category": "Revwise",
+				"icon": "$(git-merge)"
+			},
+			{
+				"command": "revwise.toggleFileBlame",
+				"title": "Toggle File Blame",
+				"category": "Revwise",
+				"icon": "$(git-commit)"
+			},
+			{
+				"command": "revwise.toggleHeatmap",
+				"title": "Toggle File Heatmap",
+				"category": "Revwise",
+				"icon": "$(flame)"
+			},
+			{
+				"command": "revwise.toggleChanges",
+				"title": "Toggle File Changes",
+				"category": "Revwise",
+				"icon": "$(diff)"
+			},
+			{
+				"command": "revwise.clearAnnotations",
+				"title": "Clear File Annotations",
+				"category": "Revwise",
+				"icon": "$(close)"
+			},
+			{
+				"command": "revwise.toggleCurrentLineBlame",
+				"title": "Toggle Current Line Blame",
+				"category": "Revwise"
+			},
+			{
+				"command": "revwise.showCommit",
+				"title": "Show Commit for Current Line",
+				"category": "Revwise",
+				"icon": "$(git-commit)"
+			},
+			{
+				"command": "revwise.diffWithPrevious",
+				"title": "Diff Line Commit with Previous",
+				"category": "Revwise",
+				"icon": "$(diff)"
+			},
+			{
+				"command": "revwise.copySha",
+				"title": "Copy Commit SHA for Current Line",
+				"category": "Revwise",
+				"icon": "$(copy)"
+			},
+			{
+				"command": "revwise.fileHistory",
+				"title": "Quick File History",
+				"category": "Revwise",
+				"icon": "$(history)"
+			},
+			{
+				"command": "revwise.refresh",
+				"title": "Refresh",
+				"category": "Revwise",
+				"icon": "$(refresh)"
+			},
+			{
+				"command": "revwise.openPreviousRevision",
+				"title": "Open Changes with Previous Revision",
+				"category": "Revwise",
+				"icon": "$(arrow-left)"
+			},
+			{
+				"command": "revwise.openNextRevision",
+				"title": "Open Changes with Next Revision",
+				"category": "Revwise",
+				"icon": "$(arrow-right)"
+			},
+			{
+				"command": "revwise.openWorkingFile",
+				"title": "Open Working File",
+				"category": "Revwise",
+				"icon": "$(go-to-file)"
+			},
+			{
+				"command": "revwise.openRevision",
+				"title": "Open File at Revision…",
+				"category": "Revwise",
+				"icon": "$(file-symlink-file)"
+			},
+			{
+				"command": "revwise.selectRepository",
+				"title": "Select Repository",
+				"category": "Revwise",
+				"icon": "$(repo)"
+			},
+			{
+				"command": "revwise.views.refresh",
+				"title": "Refresh",
+				"category": "Revwise",
+				"icon": "$(refresh)"
+			},
+			{
+				"command": "revwise.views.loadMore",
+				"title": "Load More",
+				"category": "Revwise"
+			},
+			{
+				"command": "revwise.views.openFileChanges",
+				"title": "Open Changes",
+				"category": "Revwise",
+				"icon": "$(diff)"
+			},
+			{
+				"command": "revwise.views.diffCommitFile",
+				"title": "Open Changes",
+				"category": "Revwise",
+				"icon": "$(diff)"
+			},
+			{
+				"command": "revwise.views.openFile",
+				"title": "Open File",
+				"category": "Revwise",
+				"icon": "$(go-to-file)"
+			},
+			{
+				"command": "revwise.views.openFileAtRevision",
+				"title": "Open File at Revision",
+				"category": "Revwise",
+				"icon": "$(file-symlink-file)"
+			},
+			{
+				"command": "revwise.showCommitDetails",
+				"title": "Show Commit",
+				"category": "Revwise",
+				"icon": "$(eye)"
+			},
+			{
+				"command": "revwise.copyCommitSha",
+				"title": "Copy SHA",
+				"category": "Revwise",
+				"icon": "$(copy)"
+			},
+			{
+				"command": "revwise.copyCommitMessage",
+				"title": "Copy Message",
+				"category": "Revwise"
+			},
+			{
+				"command": "revwise.checkout",
+				"title": "Checkout…",
+				"category": "Revwise",
+				"icon": "$(check)"
+			},
+			{
+				"command": "revwise.createBranch",
+				"title": "Create Branch…",
+				"category": "Revwise",
+				"icon": "$(git-branch)"
+			},
+			{
+				"command": "revwise.deleteBranch",
+				"title": "Delete Branch…",
+				"category": "Revwise",
+				"icon": "$(trash)"
+			},
+			{
+				"command": "revwise.createTag",
+				"title": "Create Tag…",
+				"category": "Revwise",
+				"icon": "$(tag)"
+			},
+			{
+				"command": "revwise.deleteTag",
+				"title": "Delete Tag…",
+				"category": "Revwise",
+				"icon": "$(trash)"
+			},
+			{
+				"command": "revwise.cherryPick",
+				"title": "Cherry Pick Commit(s)…",
+				"category": "Revwise"
+			},
+			{
+				"command": "revwise.revertCommit",
+				"title": "Revert Commit…",
+				"category": "Revwise"
+			},
+			{
+				"command": "revwise.compareWithHead",
+				"title": "Compare with HEAD",
+				"category": "Revwise",
+				"icon": "$(git-compare)"
+			},
+			{
+				"command": "revwise.compareWithWorkingTree",
+				"title": "Compare with Working Tree",
+				"category": "Revwise",
+				"icon": "$(git-compare)"
+			},
+			{
+				"command": "revwise.compareRefs",
+				"title": "Compare References…",
+				"category": "Revwise",
+				"icon": "$(git-compare)"
+			},
+			{
+				"command": "revwise.searchCommits",
+				"title": "Search Commits…",
+				"category": "Revwise",
+				"icon": "$(search)"
+			},
+			{
+				"command": "revwise.searchCompare.remove",
+				"title": "Dismiss",
+				"category": "Revwise",
+				"icon": "$(close)"
+			},
+			{
+				"command": "revwise.searchCompare.clear",
+				"title": "Clear Results",
+				"category": "Revwise",
+				"icon": "$(clear-all)"
+			},
+			{
+				"command": "revwise.openFileOnRemote",
+				"title": "Open File on Remote",
+				"category": "Revwise",
+				"icon": "$(globe)"
+			},
+			{
+				"command": "revwise.copyRemoteFileUrl",
+				"title": "Copy Remote File URL",
+				"category": "Revwise",
+				"icon": "$(copy)"
+			},
+			{
+				"command": "revwise.openCommitOnRemote",
+				"title": "Open Commit on Remote",
+				"category": "Revwise",
+				"icon": "$(globe)"
+			},
+			{
+				"command": "revwise.copyRemoteCommitUrl",
+				"title": "Copy Remote Commit URL",
+				"category": "Revwise"
+			},
+			{
+				"command": "revwise.openBranchOnRemote",
+				"title": "Open Branch on Remote",
+				"category": "Revwise",
+				"icon": "$(globe)"
+			},
+			{
+				"command": "revwise.openRepoOnRemote",
+				"title": "Open Repository on Remote",
+				"category": "Revwise",
+				"icon": "$(globe)"
+			},
+			{
+				"command": "revwise.fetch",
+				"title": "Fetch",
+				"category": "Revwise",
+				"icon": "$(sync)"
+			},
+			{
+				"command": "revwise.stashSave",
+				"title": "Stash All Changes…",
+				"category": "Revwise",
+				"icon": "$(archive)"
+			},
+			{
+				"command": "revwise.stashApply",
+				"title": "Apply Stash",
+				"category": "Revwise",
+				"icon": "$(check)"
+			},
+			{
+				"command": "revwise.stashPop",
+				"title": "Pop Stash",
+				"category": "Revwise"
+			},
+			{
+				"command": "revwise.stashDrop",
+				"title": "Drop Stash…",
+				"category": "Revwise",
+				"icon": "$(trash)"
+			},
+			{
+				"command": "revwise.openWorktree",
+				"title": "Open Worktree in New Window",
+				"category": "Revwise",
+				"icon": "$(empty-window)"
+			},
+			{
+				"command": "revwise.revealWorktree",
+				"title": "Reveal Worktree in File Explorer",
+				"category": "Revwise"
+			},
+			{
+				"command": "revwise.createWorktree",
+				"title": "Create Worktree…",
+				"category": "Revwise",
+				"icon": "$(add)"
+			},
+			{
+				"command": "revwise.removeWorktree",
+				"title": "Remove Worktree…",
+				"category": "Revwise",
+				"icon": "$(trash)"
+			},
+			{
+				"command": "revwise.rewordCommit",
+				"title": "Reword Commit…",
+				"category": "Revwise",
+				"icon": "$(edit)"
+			},
+			{
+				"command": "revwise.squashCommits",
+				"title": "Squash Selected Commits…",
+				"category": "Revwise",
+				"icon": "$(fold)"
+			},
+			{
+				"command": "revwise.fixupCommits",
+				"title": "Fixup Selected Commits into Oldest…",
+				"category": "Revwise",
+				"icon": "$(fold-down)"
+			},
+			{
+				"command": "revwise.dropCommits",
+				"title": "Drop Commit(s)…",
+				"category": "Revwise",
+				"icon": "$(trash)"
+			},
+			{
+				"command": "revwise.rebase.editPlan",
+				"title": "Interactive Rebase from Here…",
+				"category": "Revwise",
+				"icon": "$(list-ordered)"
+			},
+			{
+				"command": "revwise.rebase.start",
+				"title": "Start Rebase",
+				"category": "Revwise",
+				"icon": "$(play)"
+			},
+			{
+				"command": "revwise.rebase.cancel",
+				"title": "Cancel Rebase Plan",
+				"category": "Revwise",
+				"icon": "$(close)"
+			},
+			{
+				"command": "revwise.sequencer.menu",
+				"title": "Resolve Paused Operation…",
+				"category": "Revwise",
+				"icon": "$(warning)"
+			},
+			{
+				"command": "revwise.sequencer.continue",
+				"title": "Continue Rebase/Cherry-Pick",
+				"category": "Revwise",
+				"icon": "$(debug-continue)"
+			},
+			{
+				"command": "revwise.sequencer.skip",
+				"title": "Skip Commit in Rebase/Cherry-Pick",
+				"category": "Revwise",
+				"icon": "$(debug-step-over)"
+			},
+			{
+				"command": "revwise.sequencer.abort",
+				"title": "Abort Rebase/Cherry-Pick",
+				"category": "Revwise",
+				"icon": "$(debug-stop)"
+			},
+			{
+				"command": "revwise.showCombinedChanges",
+				"title": "Show Combined Changes of Selected Commits",
+				"category": "Revwise",
+				"icon": "$(diff-multiple)"
+			},
+			{
+				"command": "revwise.createPatchFromCommits",
+				"title": "Create Patch from Commit(s)…",
+				"category": "Revwise",
+				"icon": "$(file-diff)"
+			},
+			{
+				"command": "revwise.createPatchFromChanges",
+				"title": "Create Patch from Working Changes…",
+				"category": "Revwise",
+				"icon": "$(file-diff)"
+			},
+			{
+				"command": "revwise.applyPatch",
+				"title": "Apply Patch…",
+				"category": "Revwise",
+				"icon": "$(file-add)"
+			},
+			{
+				"command": "revwise.undo",
+				"title": "Undo Last Revwise Operation",
+				"category": "Revwise",
+				"icon": "$(discard)"
+			},
+			{
+				"command": "revwise.undoEntry",
+				"title": "Undo",
+				"category": "Revwise",
+				"icon": "$(discard)"
+			},
+			{
+				"command": "revwise.resetToHere",
+				"title": "Reset Current Branch Here…",
+				"category": "Revwise",
+				"icon": "$(debug-restart)"
+			},
+			{
+				"command": "revwise.cleanupBranches",
+				"title": "Clean Up Branches…",
+				"category": "Revwise",
+				"icon": "$(sparkle)"
+			},
+			{
+				"command": "revwise.showVisualHistory",
+				"title": "Show Visual File History",
+				"category": "Revwise",
+				"icon": "$(graph-line)"
+			},
+			{
+				"command": "revwise.changelists.refresh",
+				"title": "Refresh",
+				"category": "Revwise",
+				"icon": "$(refresh)"
+			},
+			{
+				"command": "revwise.changelists.new",
+				"title": "New Changelist…",
+				"category": "Revwise",
+				"icon": "$(add)"
+			},
+			{
+				"command": "revwise.changelists.rename",
+				"title": "Rename Changelist…",
+				"category": "Revwise",
+				"icon": "$(edit)"
+			},
+			{
+				"command": "revwise.changelists.delete",
+				"title": "Delete Changelist…",
+				"category": "Revwise",
+				"icon": "$(trash)"
+			},
+			{
+				"command": "revwise.changelists.setActive",
+				"title": "Set Active Changelist",
+				"category": "Revwise",
+				"icon": "$(pass-filled)"
+			},
+			{
+				"command": "revwise.changelists.commit",
+				"title": "Commit Changelist…",
+				"category": "Revwise",
+				"icon": "$(check)"
+			},
+			{
+				"command": "revwise.changelists.stash",
+				"title": "Stash Changelist",
+				"category": "Revwise",
+				"icon": "$(archive)"
+			},
+			{
+				"command": "revwise.changelists.createPatch",
+				"title": "Create Patch from Changelist…",
+				"category": "Revwise",
+				"icon": "$(file-diff)"
+			},
+			{
+				"command": "revwise.changelists.openChanges",
+				"title": "Open Changes",
+				"category": "Revwise",
+				"icon": "$(diff)"
+			},
+			{
+				"command": "revwise.changelists.moveTo",
+				"title": "Move to Changelist…",
+				"category": "Revwise",
+				"icon": "$(arrow-swap)"
+			}
+		],
+		"submenus": [
+			{
+				"id": "revwise.annotations",
+				"label": "Revwise Annotations",
+				"icon": "$(git-commit)"
+			},
+			{
+				"id": "revwise.editorContext",
+				"label": "Revwise"
+			}
+		],
+		"menus": {
+			"commandPalette": [
+				{
+					"command": "revwise.views.refresh",
+					"when": "false"
+				},
+				{
+					"command": "revwise.views.loadMore",
+					"when": "false"
+				},
+				{
+					"command": "revwise.views.openFileChanges",
+					"when": "false"
+				},
+				{
+					"command": "revwise.views.diffCommitFile",
+					"when": "false"
+				},
+				{
+					"command": "revwise.views.openFile",
+					"when": "false"
+				},
+				{
+					"command": "revwise.views.openFileAtRevision",
+					"when": "false"
+				},
+				{
+					"command": "revwise.searchCompare.remove",
+					"when": "false"
+				},
+				{
+					"command": "revwise.deleteBranch",
+					"when": "false"
+				},
+				{
+					"command": "revwise.deleteTag",
+					"when": "false"
+				},
+				{
+					"command": "revwise.stashApply",
+					"when": "false"
+				},
+				{
+					"command": "revwise.stashPop",
+					"when": "false"
+				},
+				{
+					"command": "revwise.stashDrop",
+					"when": "false"
+				},
+				{
+					"command": "revwise.openWorktree",
+					"when": "false"
+				},
+				{
+					"command": "revwise.revealWorktree",
+					"when": "false"
+				},
+				{
+					"command": "revwise.removeWorktree",
+					"when": "false"
+				},
+				{
+					"command": "revwise.undoEntry",
+					"when": "false"
+				},
+				{
+					"command": "revwise.resetToHere",
+					"when": "false"
+				},
+				{
+					"command": "revwise.rebase.start",
+					"when": "false"
+				},
+				{
+					"command": "revwise.rebase.cancel",
+					"when": "false"
+				},
+				{
+					"command": "revwise.changelists.openChanges",
+					"when": "false"
+				},
+				{
+					"command": "revwise.changelists.rename",
+					"when": "false"
+				},
+				{
+					"command": "revwise.changelists.delete",
+					"when": "false"
+				},
+				{
+					"command": "revwise.sequencer.continue",
+					"when": "revwise.sequencerState != ''"
+				},
+				{
+					"command": "revwise.sequencer.skip",
+					"when": "revwise.sequencerState != '' && revwise.sequencerState != 'merge'"
+				},
+				{
+					"command": "revwise.sequencer.abort",
+					"when": "revwise.sequencerState != ''"
+				},
+				{
+					"command": "revwise.sequencer.menu",
+					"when": "revwise.sequencerState != ''"
+				}
+			],
+			"revwise.annotations": [
+				{
+					"command": "revwise.toggleFileBlame",
+					"group": "1@1"
+				},
+				{
+					"command": "revwise.toggleHeatmap",
+					"group": "1@2"
+				},
+				{
+					"command": "revwise.toggleChanges",
+					"group": "1@3"
+				},
+				{
+					"command": "revwise.toggleCurrentLineBlame",
+					"group": "2@1"
+				}
+			],
+			"revwise.editorContext": [
+				{
+					"command": "revwise.showCommit",
+					"group": "1@1"
+				},
+				{
+					"command": "revwise.diffWithPrevious",
+					"group": "1@2"
+				},
+				{
+					"command": "revwise.copySha",
+					"group": "1@3"
+				},
+				{
+					"command": "revwise.openFileOnRemote",
+					"group": "2@1"
+				},
+				{
+					"command": "revwise.copyRemoteFileUrl",
+					"group": "2@2"
+				},
+				{
+					"command": "revwise.fileHistory",
+					"group": "3@1"
+				},
+				{
+					"command": "revwise.openRevision",
+					"group": "3@2"
+				},
+				{
+					"command": "revwise.rewordCommit",
+					"group": "1@4"
+				},
+				{
+					"command": "revwise.showVisualHistory",
+					"group": "3@3"
+				},
+				{
+					"command": "revwise.changelists.moveTo",
+					"group": "4@1"
+				}
+			],
+			"editor/title": [
+				{
+					"command": "revwise.openPreviousRevision",
+					"when": "resourceScheme == file || resourceScheme == revwise",
+					"group": "navigation@96"
+				},
+				{
+					"command": "revwise.openNextRevision",
+					"when": "resourceScheme == revwise",
+					"group": "navigation@97"
+				},
+				{
+					"command": "revwise.openWorkingFile",
+					"when": "resourceScheme == revwise",
+					"group": "navigation@98"
+				},
+				{
+					"submenu": "revwise.annotations",
+					"when": "resourceScheme == file && revwise.annotationMode == ''",
+					"group": "navigation@99"
+				},
+				{
+					"command": "revwise.clearAnnotations",
+					"when": "resourceScheme == file && revwise.annotationMode != ''",
+					"group": "navigation@99"
+				},
+				{
+					"command": "revwise.rebase.start",
+					"when": "revwise.rebasePlanOpen && resourceFilename == git-rebase-todo",
+					"group": "navigation@1"
+				},
+				{
+					"command": "revwise.rebase.cancel",
+					"when": "revwise.rebasePlanOpen && resourceFilename == git-rebase-todo",
+					"group": "navigation@2"
+				},
+				{
+					"command": "revwise.applyPatch",
+					"when": "resourceExtname =~ /^\\.(patch|diff)$/ || editorLangId == diff && resourceScheme == untitled",
+					"group": "navigation@90"
+				}
+			],
+			"editor/context": [
+				{
+					"submenu": "revwise.editorContext",
+					"when": "resourceScheme == file",
+					"group": "revwise@1"
+				}
+			],
+			"explorer/context": [
+				{
+					"command": "revwise.openFileOnRemote",
+					"when": "!explorerResourceIsFolder",
+					"group": "revwise@1"
+				},
+				{
+					"command": "revwise.changelists.moveTo",
+					"when": "!explorerResourceIsFolder && revwise.hasRepo",
+					"group": "revwise@2"
+				},
+				{
+					"command": "revwise.applyPatch",
+					"when": "resourceExtname =~ /^\\.(patch|diff)$/",
+					"group": "revwise@3"
+				},
+				{
+					"command": "revwise.showVisualHistory",
+					"when": "!explorerResourceIsFolder",
+					"group": "revwise@4"
+				}
+			],
+			"view/title": [
+				{
+					"command": "revwise.showGraph",
+					"when": "view == revwise.graph",
+					"group": "navigation@1"
+				},
+				{
+					"command": "revwise.searchCommits",
+					"when": "view == revwise.commits || view == revwise.searchCompare",
+					"group": "navigation@1"
+				},
+				{
+					"command": "revwise.compareRefs",
+					"when": "view == revwise.branches || view == revwise.searchCompare",
+					"group": "navigation@2"
+				},
+				{
+					"command": "revwise.searchCompare.clear",
+					"when": "view == revwise.searchCompare",
+					"group": "navigation@3"
+				},
+				{
+					"command": "revwise.stashSave",
+					"when": "view == revwise.stashes",
+					"group": "navigation@1"
+				},
+				{
+					"command": "revwise.fetch",
+					"when": "view == revwise.remotes || view == revwise.branches",
+					"group": "navigation@1"
+				},
+				{
+					"command": "revwise.createWorktree",
+					"when": "view == revwise.worktrees",
+					"group": "navigation@1"
+				},
+				{
+					"command": "revwise.createBranch",
+					"when": "view == revwise.branches",
+					"group": "navigation@0"
+				},
+				{
+					"command": "revwise.views.refresh",
+					"when": "view =~ /^revwise\\.(commits|branches|remotes|stashes|tags|worktrees|contributors|fileHistory|lineHistory|searchCompare)$/",
+					"group": "navigation@9"
+				},
+				{
+					"command": "revwise.selectRepository",
+					"when": "view =~ /^revwise\\.(commits|branches|remotes|stashes|tags|worktrees|contributors|fileHistory|lineHistory|searchCompare)$/ || view == revwise.graph",
+					"group": "9_repo"
+				},
+				{
+					"command": "revwise.changelists.new",
+					"when": "view == revwise.changelists",
+					"group": "navigation@1"
+				},
+				{
+					"command": "revwise.changelists.commit",
+					"when": "view == revwise.changelists",
+					"group": "navigation@2"
+				},
+				{
+					"command": "revwise.changelists.refresh",
+					"when": "view == revwise.changelists",
+					"group": "navigation@9"
+				},
+				{
+					"command": "revwise.createPatchFromChanges",
+					"when": "view == revwise.changelists",
+					"group": "2_patch@1"
+				},
+				{
+					"command": "revwise.applyPatch",
+					"when": "view == revwise.changelists",
+					"group": "2_patch@2"
+				},
+				{
+					"command": "revwise.undo",
+					"when": "view == revwise.undo",
+					"group": "navigation@1"
+				},
+				{
+					"command": "revwise.cleanupBranches",
+					"when": "view == revwise.branches",
+					"group": "navigation@3"
+				},
+				{
+					"command": "revwise.showVisualHistory",
+					"when": "view == revwise.visualHistory",
+					"group": "navigation@1"
+				},
+				{
+					"command": "revwise.sequencer.continue",
+					"when": "revwise.sequencerState != '' && view =~ /^revwise\\./",
+					"group": "navigation@0"
+				},
+				{
+					"command": "revwise.sequencer.abort",
+					"when": "revwise.sequencerState != '' && view =~ /^revwise\\./",
+					"group": "navigation@0"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "revwise.showCommitDetails",
+					"when": "viewItem == commit",
+					"group": "inline@1"
+				},
+				{
+					"command": "revwise.showCommitDetails",
+					"when": "viewItem == commit",
+					"group": "1_show@1"
+				},
+				{
+					"command": "revwise.compareWithHead",
+					"when": "viewItem == commit || viewItem =~ /^(branch|branch\\.current|remoteBranch|tag)$/",
+					"group": "2_compare@1"
+				},
+				{
+					"command": "revwise.compareWithWorkingTree",
+					"when": "viewItem == commit || viewItem =~ /^(branch|branch\\.current|remoteBranch|tag)$/",
+					"group": "2_compare@2"
+				},
+				{
+					"command": "revwise.copyCommitSha",
+					"when": "viewItem == commit || viewItem =~ /^(branch|branch\\.current|remoteBranch|tag)$/",
+					"group": "3_copy@1"
+				},
+				{
+					"command": "revwise.copyCommitMessage",
+					"when": "viewItem == commit",
+					"group": "3_copy@2"
+				},
+				{
+					"command": "revwise.copyRemoteCommitUrl",
+					"when": "viewItem == commit",
+					"group": "3_copy@3"
+				},
+				{
+					"command": "revwise.openCommitOnRemote",
+					"when": "viewItem == commit",
+					"group": "4_remote@1"
+				},
+				{
+					"command": "revwise.openBranchOnRemote",
+					"when": "viewItem =~ /^(branch|branch\\.current|remoteBranch)$/",
+					"group": "4_remote@1"
+				},
+				{
+					"command": "revwise.checkout",
+					"when": "viewItem == commit || viewItem == branch || viewItem == remoteBranch || viewItem == tag",
+					"group": "5_actions@1"
+				},
+				{
+					"command": "revwise.checkout",
+					"when": "viewItem == branch || viewItem == remoteBranch",
+					"group": "inline@1"
+				},
+				{
+					"command": "revwise.createBranch",
+					"when": "viewItem == commit || viewItem =~ /^(branch|branch\\.current|remoteBranch|tag)$/",
+					"group": "5_actions@2"
+				},
+				{
+					"command": "revwise.createTag",
+					"when": "viewItem == commit",
+					"group": "5_actions@3"
+				},
+				{
+					"command": "revwise.cherryPick",
+					"when": "viewItem == commit",
+					"group": "5_actions@4"
+				},
+				{
+					"command": "revwise.revertCommit",
+					"when": "viewItem == commit",
+					"group": "5_actions@5"
+				},
+				{
+					"command": "revwise.deleteBranch",
+					"when": "viewItem == branch",
+					"group": "9_delete@1"
+				},
+				{
+					"command": "revwise.deleteTag",
+					"when": "viewItem == tag",
+					"group": "9_delete@1"
+				},
+				{
+					"command": "revwise.fetch",
+					"when": "viewItem == remote",
+					"group": "inline@1"
+				},
+				{
+					"command": "revwise.fetch",
+					"when": "viewItem == remote",
+					"group": "1_actions@1"
+				},
+				{
+					"command": "revwise.openRepoOnRemote",
+					"when": "viewItem == remote",
+					"group": "1_actions@2"
+				},
+				{
+					"command": "revwise.stashApply",
+					"when": "viewItem == stash",
+					"group": "inline@1"
+				},
+				{
+					"command": "revwise.stashApply",
+					"when": "viewItem == stash",
+					"group": "1_actions@1"
+				},
+				{
+					"command": "revwise.stashPop",
+					"when": "viewItem == stash",
+					"group": "1_actions@2"
+				},
+				{
+					"command": "revwise.stashDrop",
+					"when": "viewItem == stash",
+					"group": "9_delete@1"
+				},
+				{
+					"command": "revwise.openWorktree",
+					"when": "viewItem =~ /^worktree/",
+					"group": "inline@1"
+				},
+				{
+					"command": "revwise.openWorktree",
+					"when": "viewItem =~ /^worktree/",
+					"group": "1_actions@1"
+				},
+				{
+					"command": "revwise.revealWorktree",
+					"when": "viewItem =~ /^worktree/",
+					"group": "1_actions@2"
+				},
+				{
+					"command": "revwise.removeWorktree",
+					"when": "viewItem == worktree",
+					"group": "9_delete@1"
+				},
+				{
+					"command": "revwise.views.openFile",
+					"when": "viewItem == file",
+					"group": "inline@1"
+				},
+				{
+					"command": "revwise.views.openFileChanges",
+					"when": "viewItem == file",
+					"group": "1_open@1"
+				},
+				{
+					"command": "revwise.views.openFile",
+					"when": "viewItem == file",
+					"group": "1_open@2"
+				},
+				{
+					"command": "revwise.views.openFileAtRevision",
+					"when": "viewItem == file",
+					"group": "1_open@3"
+				},
+				{
+					"command": "revwise.searchCompare.remove",
+					"when": "viewItem == searchResult || viewItem == compareResult",
+					"group": "inline@9"
+				},
+				{
+					"command": "revwise.createPatchFromCommits",
+					"when": "viewItem == commit",
+					"group": "3_copy@4"
+				},
+				{
+					"command": "revwise.showCombinedChanges",
+					"when": "viewItem == commit && listMultiSelection",
+					"group": "1_show@2"
+				},
+				{
+					"command": "revwise.rewordCommit",
+					"when": "viewItem == commit && !listMultiSelection",
+					"group": "6_rewrite@1"
+				},
+				{
+					"command": "revwise.squashCommits",
+					"when": "viewItem == commit && listMultiSelection",
+					"group": "6_rewrite@2"
+				},
+				{
+					"command": "revwise.fixupCommits",
+					"when": "viewItem == commit && listMultiSelection",
+					"group": "6_rewrite@3"
+				},
+				{
+					"command": "revwise.dropCommits",
+					"when": "viewItem == commit",
+					"group": "6_rewrite@4"
+				},
+				{
+					"command": "revwise.rebase.editPlan",
+					"when": "viewItem == commit && !listMultiSelection",
+					"group": "6_rewrite@5"
+				},
+				{
+					"command": "revwise.undoEntry",
+					"when": "viewItem == journalEntry",
+					"group": "inline@1"
+				},
+				{
+					"command": "revwise.undoEntry",
+					"when": "viewItem == journalEntry",
+					"group": "1_undo@1"
+				},
+				{
+					"command": "revwise.resetToHere",
+					"when": "viewItem == reflog",
+					"group": "5_actions@0"
+				},
+				{
+					"command": "revwise.showCommitDetails",
+					"when": "viewItem == reflog",
+					"group": "1_show@1"
+				},
+				{
+					"command": "revwise.createBranch",
+					"when": "viewItem == reflog",
+					"group": "5_actions@1"
+				},
+				{
+					"command": "revwise.copyCommitSha",
+					"when": "viewItem == reflog",
+					"group": "3_copy@1"
+				},
+				{
+					"command": "revwise.changelists.commit",
+					"when": "viewItem =~ /^changelist(\\.default)?$/",
+					"group": "inline@1"
+				},
+				{
+					"command": "revwise.changelists.setActive",
+					"when": "viewItem =~ /^changelist(\\.default)?$/",
+					"group": "inline@2"
+				},
+				{
+					"command": "revwise.changelists.commit",
+					"when": "viewItem =~ /^changelist(\\.default)?$/",
+					"group": "1_actions@1"
+				},
+				{
+					"command": "revwise.changelists.stash",
+					"when": "viewItem =~ /^changelist(\\.default)?$/",
+					"group": "1_actions@2"
+				},
+				{
+					"command": "revwise.changelists.createPatch",
+					"when": "viewItem =~ /^changelist(\\.default)?$/",
+					"group": "1_actions@3"
+				},
+				{
+					"command": "revwise.changelists.setActive",
+					"when": "viewItem =~ /^changelist(\\.default)?$/",
+					"group": "2_manage@1"
+				},
+				{
+					"command": "revwise.changelists.rename",
+					"when": "viewItem =~ /^changelist(\\.default)?$/",
+					"group": "2_manage@2"
+				},
+				{
+					"command": "revwise.changelists.delete",
+					"when": "viewItem == changelist",
+					"group": "2_manage@3"
+				},
+				{
+					"command": "revwise.changelists.moveTo",
+					"when": "viewItem == changelistFile",
+					"group": "inline@1"
+				},
+				{
+					"command": "revwise.changelists.moveTo",
+					"when": "viewItem == changelistFile",
+					"group": "1_actions@1"
+				},
+				{
+					"command": "revwise.changelists.openChanges",
+					"when": "viewItem == changelistFile",
+					"group": "1_actions@0"
+				}
+			]
+		},
+		"keybindings": [
+			{
+				"command": "revwise.toggleFileBlame",
+				"key": "ctrl+alt+b",
+				"mac": "cmd+alt+b",
+				"when": "editorTextFocus"
+			},
+			{
+				"command": "revwise.openPreviousRevision",
+				"key": "alt+,",
+				"when": "editorTextFocus && (resourceScheme == file || resourceScheme == revwise)"
+			},
+			{
+				"command": "revwise.openNextRevision",
+				"key": "alt+.",
+				"when": "editorTextFocus && resourceScheme == revwise"
+			},
+			{
+				"command": "revwise.showGraph",
+				"key": "ctrl+alt+g",
+				"mac": "cmd+alt+g"
+			},
+			{
+				"command": "revwise.undo",
+				"key": "ctrl+alt+z",
+				"mac": "cmd+alt+z",
+				"when": "!editorTextFocus || editorReadonly"
+			}
+		],
+		"configuration": {
+			"title": "Revwise",
+			"properties": {
+				"revwise.currentLine.enabled": {
+					"type": "boolean",
+					"default": true,
+					"description": "Show blame at the end of the current line."
+				},
+				"revwise.currentLine.format": {
+					"type": "string",
+					"default": "${author}, ${ago} • ${summary}",
+					"markdownDescription": "Format of the current-line annotation. Tokens: `${author}`, `${email}`, `${ago}`, `${date}`, `${sha}`, `${summary}`."
+				},
+				"revwise.currentLine.delay": {
+					"type": "number",
+					"default": 100,
+					"minimum": 0,
+					"description": "Debounce (ms) after cursor movement before blaming the line."
+				},
+				"revwise.statusBar.enabled": {
+					"type": "boolean",
+					"default": true,
+					"description": "Show blame for the current line in the status bar."
+				},
+				"revwise.statusBar.format": {
+					"type": "string",
+					"default": "${author}, ${ago}",
+					"description": "Format of the status bar item. Same tokens as currentLine.format."
+				},
+				"revwise.hovers.enabled": {
+					"type": "boolean",
+					"default": true,
+					"description": "Show commit details when hovering the current line."
+				},
+				"revwise.hovers.over": {
+					"type": "string",
+					"enum": [
+						"annotation",
+						"line"
+					],
+					"default": "annotation",
+					"description": "Trigger the hover over the annotation only, or anywhere on the line."
+				},
+				"revwise.codeLens.enabled": {
+					"type": "boolean",
+					"default": true,
+					"description": "Show recent-change and authors CodeLens at the top of files."
+				},
+				"revwise.fileBlame.format": {
+					"type": "string",
+					"default": "${agoShort|4} ${author|14} ${summary}",
+					"description": "Format of gutter (file) blame. Same tokens as currentLine.format; append |N to a token (e.g. ${author|14}) to pad or truncate it to N characters so columns line up."
+				},
+				"revwise.history.limit": {
+					"type": "number",
+					"default": 200,
+					"minimum": 1,
+					"description": "Maximum commits shown in File History."
+				},
+				"revwise.youEmail": {
+					"type": "string",
+					"default": "",
+					"description": "Your git email; matching authors render as \"You\"."
+				},
+				"revwise.heatmap.ageThreshold": {
+					"type": "number",
+					"default": 90,
+					"minimum": 1,
+					"description": "Lines changed within this many days are \"hot\" in the heatmap; older lines are \"cold\"."
+				},
+				"revwise.blame.detectMoves": {
+					"type": "string",
+					"enum": [
+						"off",
+						"file",
+						"files"
+					],
+					"enumDescriptions": [
+						"Plain blame (fastest).",
+						"Follow lines moved within the file (git blame -M).",
+						"Also follow lines moved or copied from other files in the same commit (git blame -C). Slower on large files."
+					],
+					"default": "file",
+					"description": "Attribute moved/copied lines to the commit that originally wrote them instead of the commit that moved them."
+				},
+				"revwise.blame.ignoreWhitespace": {
+					"type": "boolean",
+					"default": false,
+					"description": "Ignore whitespace-only changes when blaming (git blame -w)."
+				},
+				"revwise.blame.ignoreRevsFile": {
+					"type": "string",
+					"default": ".git-blame-ignore-revs",
+					"markdownDescription": "File (relative to the repository root) listing commits to skip in blame, e.g. mass-formatting commits. Used when it exists. Set to empty to disable. Same format as `git blame --ignore-revs-file`."
+				},
+				"revwise.branchCleanup.protected": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"default": [
+						"main",
+						"master",
+						"develop",
+						"dev",
+						"trunk",
+						"release/*"
+					],
+					"description": "Branches (globs with *) that Clean Up Branches never offers to delete."
+				},
+				"revwise.branchCleanup.staleDays": {
+					"type": "number",
+					"default": 90,
+					"minimum": 1,
+					"description": "Branches with no commits for this many days are listed as stale (not preselected)."
+				}
+			}
+		},
+		"colors": [
+			{
+				"id": "revwise.trailingLineForegroundColor",
+				"description": "Current-line blame annotation text.",
+				"defaults": {
+					"dark": "#99999959",
+					"light": "#99999959",
+					"highContrast": "#99999999"
+				}
+			},
+			{
+				"id": "revwise.gutterForegroundColor",
+				"description": "Gutter blame text.",
+				"defaults": {
+					"dark": "#BEBEBE",
+					"light": "#747474",
+					"highContrast": "#FFFFFF"
+				}
+			},
+			{
+				"id": "revwise.gutterBackgroundColor",
+				"description": "Gutter blame background.",
+				"defaults": {
+					"dark": "#FFFFFF13",
+					"light": "#0000000C",
+					"highContrast": "#FFFFFF13"
+				}
+			},
+			{
+				"id": "revwise.changesAddedColor",
+				"description": "File Changes annotation: added lines.",
+				"defaults": {
+					"dark": "#587c0c",
+					"light": "#48985d",
+					"highContrast": "#487e02"
+				}
+			},
+			{
+				"id": "revwise.changesModifiedColor",
+				"description": "File Changes annotation: modified lines.",
+				"defaults": {
+					"dark": "#0c7d9d",
+					"light": "#2090d3",
+					"highContrast": "#1b81a8"
+				}
+			},
+			{
+				"id": "revwise.changesDeletedColor",
+				"description": "File Changes annotation: deleted lines marker.",
+				"defaults": {
+					"dark": "#94151b",
+					"light": "#e51400",
+					"highContrast": "#c74e39"
+				}
+			}
+		]
+	},
+	"scripts": {
+		"test": "node --test",
+		"package": "npx -y @vscode/vsce package --no-dependencies"
+	}
+}

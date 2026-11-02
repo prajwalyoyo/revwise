@@ -1,0 +1,13 @@
+.git/**
+.github/**
+.vscode/**
+.gitignore
+*.vsix
+Revwise extension.txt
+design/**
+test/**
+test-int/**
+FEATURES.md
+CONTRIBUTING.md
+CODE_OF_CONDUCT.md
+SECURITY.md
